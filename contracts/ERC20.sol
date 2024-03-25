@@ -16,13 +16,13 @@ contract TestUSDT is ERC20{
 
     constructor()ERC20("KonnektVPN", "KPN"){
         owner = msg.sender;
-        _totalSupply = 2000000000000000000000000000;
+        _mint(msg.sender, 2000000000000000000000000000);
         
     }
 
     // mints token to owners wallet
     function mint(uint256 amount) external{
-        require(owner == msg.sender, "ERC20: Only contract owner can call function");
+        // require(owner == msg.sender, "ERC20: Only contract owner can call function");
         require(_totalSupply + amount <= maxSupply, "ERC20: Over Max Supply Error");
         _totalSupply += amount;
         _mint(msg.sender, amount);

@@ -48,7 +48,19 @@ describe("Donations", () =>{
     })
     describe("Token Donation",()=>{
         beforeEach(async () =>{
-            
+            tx = await USDT.connect(deployer).transfer(user1.address, 1000000000)
+            res = await tx.wait()
+            tx = await USDT.connect(user1).approve(Donations.target, 500)
+            res = await tx.wait()
+            tx = await Donations.connect(user1).donate(USDT.target, 500)
+            res = await tx.wait()
+        })
+        it("checks the balance of the tokens in the smart contract", async () =>{
+            expect(await Donations.getTokenBalance(USDT.target)).to.equal(500)
+        })
+        it("checks the token address was added to the stored tokens array")
+        it("checks the donation status for the address was set to true", async () =>{
+            expect(await Donations.getDonor(user1.address)).to.equal(true)
         })
     })
 })

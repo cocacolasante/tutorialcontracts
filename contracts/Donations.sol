@@ -32,15 +32,17 @@ contract Donations {
         _owner = msg.sender;
     }
 
-    function donate(address _tokenAddy, uint _amount) public payable returns(bool){
+    function donate(address _tokenAddy, uint _amount) public returns(bool){
         if(_tokenAmounts[_tokenAddy]==0){
             _storedTokens.push(_tokenAddy);
         }
         if(donors[msg.sender] == false){
             donors[msg.sender] == true;
         }
+    
+        _tokenAmounts[_tokenAddy]+= _amount;
+        bool success = IERC20(_tokenAddy).transferFrom(msg.sender, address(this), _amount);
 
-        bool success = IERC20(_tokenAddy).transfer(address(this), _amount);
         emit Donated(msg.sender, _amount, success);
         return success;
     }
